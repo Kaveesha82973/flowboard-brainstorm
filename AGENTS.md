@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- No sign-in: tasks and chat_messages tables are publicly readable/writable by design (user requested no logins).
+- AI chat streams via src/routes/api/chat.ts using src/lib/chat.server.ts tools that read/write tasks; one saved conversation.
