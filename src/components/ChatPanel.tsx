@@ -61,7 +61,9 @@ function ChatBody({ initial, open }: { initial: UIMessage[]; open: boolean }) {
   });
   const busy = status === "submitted" || status === "streaming";
 
-  useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages, status]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, status]);
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
