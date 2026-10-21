@@ -107,6 +107,7 @@ export async function handleChat(request: Request) {
   return withLovableAiGatewayRunIdHeader(
     result.toUIMessageStreamResponse({
       originalMessages: messages,
+      generateMessageId: () => crypto.randomUUID(),
       sendReasoning: true,
       onFinish: async ({ responseMessage }) => {
         const { error } = await supabase.from("chat_messages").insert({ message: responseMessage as never });
