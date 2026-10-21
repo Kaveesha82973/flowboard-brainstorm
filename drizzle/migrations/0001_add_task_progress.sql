@@ -1,0 +1,2 @@
+ALTER TABLE public.tasks ADD COLUMN progress integer NOT NULL DEFAULT 0 CHECK (progress BETWEEN 0 AND 100);
+UPDATE public.tasks SET progress = CASE status WHEN 'completed' THEN 100 WHEN 'progress' THEN 50 ELSE 0 END;
