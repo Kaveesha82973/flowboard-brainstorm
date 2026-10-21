@@ -38,6 +38,7 @@ export type Database = {
           description: string
           id: string
           position: number
+          progress: number
           status: string
           title: string
           updated_at: string
@@ -47,6 +48,7 @@ export type Database = {
           description?: string
           id?: string
           position?: number
+          progress?: number
           status?: string
           title: string
           updated_at?: string
@@ -56,6 +58,7 @@ export type Database = {
           description?: string
           id?: string
           position?: number
+          progress?: number
           status?: string
           title?: string
           updated_at?: string

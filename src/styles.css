@@ -96,3 +96,12 @@
 @utility bg-bar { background: var(--gradient-bar); }
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility shadow-lift { box-shadow: var(--shadow-lift); }
+
+@keyframes drop-in { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@keyframes slide-in { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+@keyframes pop-in { 0% { opacity: 0; transform: scale(0.85); } 70% { transform: scale(1.04); } 100% { opacity: 1; transform: none; } }
+@keyframes soft-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@utility anim-drop { animation: drop-in 0.4s ease-out both; }
+@utility anim-slide { animation: slide-in 0.45s ease-out both; }
+@utility anim-pop { animation: pop-in 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+@utility anim-bounce { animation: soft-bounce 1.6s ease-in-out infinite; }

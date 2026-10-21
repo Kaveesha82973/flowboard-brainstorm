@@ -5,12 +5,24 @@ export function TaskDialog({ status, task, onClose }: { status: TaskStatus; task
   const { create, update } = useTaskMutations();
   const [title, setTitle] = useState(task?.title ?? "");
   const [description, setDescription] = useState(task?.description ?? "");
-  const [col, setCol] = useState<TaskStatus>(task?.status ?? status);
+  const [col, setColRaw] = useState<TaskStatus>(task?.status ?? status);
+  const def = (s: TaskStatus) => (s === "completed" ? 100 : s === "progress" ? 50 : 0);
+  const [progress, setProgress] = useState<number>(task?.progress ?? def(task?.status ?? status));
+  const setCol = (s: TaskStatus) => {
+    setColRaw(s);
+    if (s === "completed") setProgress(100);
+    else if (s === "todo") setProgress(0);
+    else if (progress === 0 || progress === 100) setProgress(50);
+  };
+  const onProgress = (v: number) => {
+    setProgress(v);
+    setColRaw(v >= 100 ? "completed" : v <= 0 ? "todo" : "progress");
+  };
 
   const save = async () => {
     if (!title.trim()) return;
-    if (task) await update.mutateAsync({ id: task.id, title: title.trim(), description, status: col });
-    else await create.mutateAsync({ title: title.trim(), description, status: col });
+    if (task) await update.mutateAsync({ id: task.id, title: title.trim(), description, status: col, progress });
+    else await create.mutateAsync({ title: title.trim(), description, status: col, progress });
     onClose();
   };
 
@@ -27,6 +39,12 @@ export function TaskDialog({ status, task, onClose }: { status: TaskStatus; task
                 {c.label}
               </button>
             ))}
+          </div>
+          <div>
+            <div className="mb-1 flex justify-between text-xs font-medium text-muted-foreground">
+              <span>Progress</span><span className="text-foreground">{progress}%</span>
+            </div>
+            <input type="range" min={0} max={100} step={5} value={progress} onChange={(e) => onProgress(Number(e.target.value))} className="w-full accent-primary" aria-label="Progress" />
           </div>
         </div>
         <div className="mt-6 flex justify-end gap-2">

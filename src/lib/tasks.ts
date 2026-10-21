@@ -8,6 +8,7 @@ export type Task = {
   description: string;
   status: TaskStatus;
   position: number;
+  progress: number;
   created_at: string;
 };
 
@@ -22,7 +23,7 @@ export const tasksQuery = queryOptions({
   queryFn: async () => {
     const { data, error } = await supabase
       .from("tasks")
-      .select("id,title,description,status,position,created_at")
+      .select("id,title,description,status,position,progress,created_at")
       .order("position");
     if (error) throw error;
     return data as Task[];
@@ -33,7 +34,7 @@ export function useTaskMutations() {
   const qc = useQueryClient();
   const done = () => qc.invalidateQueries({ queryKey: ["tasks"] });
   const create = useMutation({
-    mutationFn: async (t: { title: string; description: string; status: TaskStatus }) => {
+    mutationFn: async (t: { title: string; description: string; status: TaskStatus; progress: number }) => {
       const { error } = await supabase.from("tasks").insert({ ...t, position: Date.now() });
       if (error) throw error;
     },
